@@ -31,18 +31,17 @@ const Title = styled.h1`
 
 const Footer = styled.footer`
   font-size: 12px;
-  color: gray;
   margin: 16px;
   padding: 0;
 `;
 
 const UnstyledLink = styled.a`
   text-decoration: none;
-  color: gray;
+  color: #717171;
 `;
 
 export default function Home(
-  props: InferGetServerSidePropsType<typeof getServerSideProps>,
+  props: InferGetServerSidePropsType<typeof getStaticProps>,
 ) {
   return (
     <>
@@ -60,7 +59,11 @@ export default function Home(
           </p>
         </div>
         <Footer>
-          <UnstyledLink href="https://github.com/feedm3">
+          <UnstyledLink
+            href="https://github.com/feedm3"
+            target="_blank"
+            rel="noopener"
+          >
             Made with ❤️ from feedm3
           </UnstyledLink>
         </Footer>
@@ -69,7 +72,7 @@ export default function Home(
   );
 }
 
-export const getServerSideProps: GetServerSideProps<{
+export const getStaticProps: GetServerSideProps<{
   times: TimesResponse;
   message: string;
 }> = async () => {
@@ -81,6 +84,7 @@ export const getServerSideProps: GetServerSideProps<{
       times,
       message,
     },
+    revalidate: 1,
   };
 };
 
