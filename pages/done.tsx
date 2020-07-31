@@ -4,6 +4,7 @@ import { TimeEntryForm } from '../app/components/time-entry-form';
 import { createTime, fetchTimes } from '../app/api/times';
 import { TimesTable } from '../app/components/times-table';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
+import Head from 'next/head';
 
 const Page = styled.div`
   padding: 0 8px 32px 8px;
@@ -21,6 +22,11 @@ export default function Done(
 ) {
   return (
     <Page>
+      <Head>
+        <meta key="robots" name="robots" content="noindex,follow" />
+        <meta key="googlebot" name="googlebot" content="noindex,follow" />
+        <title>Hat Dave Zeit? Done Panel</title>
+      </Head>
       <Title>Done Panel 🍺</Title>
       <SubTitle>Add new time:</SubTitle>
       <TimeEntryForm

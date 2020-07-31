@@ -23,7 +23,7 @@ const TableEntry = styled.td`
   border: 1px solid black;
 `;
 
-const TableCaption = styled.caption`
+const TableCaption = styled.div`
   color: grey;
   width: 100%;
   font-size: 14px;
