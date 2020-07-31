@@ -3,6 +3,7 @@ import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import { TimesResponse } from './api/times';
 import { fetchTimes } from '../app/api/times';
 import styled, { createGlobalStyle } from 'styled-components';
+import { format, isToday } from 'date-fns';
 
 const GlobalStyle = createGlobalStyle`
   html,
@@ -47,18 +48,13 @@ export default function Home(
     <>
       <Head>
         <title>Hat Dave Zeit?</title>
-        <meta name="description" content={props.message} />
+        <meta name="description" content={props.title} />
       </Head>
       <GlobalStyle />
       <Page>
         <div>
-          <Title>{props.message}</Title>
-          {props.hasTime && (
-            <p>
-              jetzt gerade am liebsten für{' '}
-              {props.times.now.map((time) => time.title).join(', ')}
-            </p>
-          )}
+          <Title>{props.title}</Title>
+          {props.subTitle && <p>{props.subTitle}</p>}
         </div>
         <Footer>
           <UnstyledLink
@@ -76,18 +72,33 @@ export default function Home(
 
 export const getStaticProps: GetServerSideProps<{
   times: TimesResponse;
-  message: string;
-  hasTime: boolean;
+  title: string;
+  subTitle: string;
 }> = async () => {
   const times = await fetchTimes();
-  const hasTime = Boolean(Array.isArray(times.now) && times.now.length > 0);
-  const message = hasTime ? getRandom(YES) : getRandom(NOS);
+  const hasNowTime = Boolean(Array.isArray(times.now) && times.now.length > 0);
+  const hasNextTime = Boolean(times.next);
+
+  const title = hasNowTime ? getRandom(YES) : getRandom(NOS);
+
+  const subTitle = hasNowTime
+    ? `jetzt gerade am liebsten für ${times.now
+        .map((time) => time.title)
+        .join(', ')}`
+    : hasNextTime
+    ? isToday(new Date(times.next.fromTime))
+      ? `eventuell heute um ${format(
+          new Date(times.next.fromTime),
+          'HH:mm',
+        )} Uhr`
+      : 'heute nicht mehr'
+    : '';
 
   return {
     props: {
       times,
-      message,
-      hasTime,
+      title,
+      subTitle,
     },
     revalidate: 1,
   };
