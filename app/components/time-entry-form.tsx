@@ -25,7 +25,9 @@ export const TimeEntryForm: React.FC<TimeEntryFormProps> = (props) => {
   };
 
   const isDisabled = () => {
-    return !title || !fromTime || !toTime;
+    return (
+      !title || !fromTime || !toTime || fromTime.getTime() >= toTime.getTime()
+    );
   };
 
   return (

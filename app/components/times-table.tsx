@@ -4,7 +4,8 @@ import { format } from 'date-fns';
 import styled from 'styled-components';
 
 const TableContainer = styled.div`
-  display: inline-block;
+  display: inline-flex;
+  flex-direction: column;
 `;
 
 const Table = styled.table`
