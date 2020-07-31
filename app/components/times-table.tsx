@@ -73,8 +73,12 @@ export const TimesTable: React.FC<TimesTableProps> = (props) => {
             return (
               <tr key={time.id}>
                 <TableEntry>{time.title}</TableEntry>
-                <TableEntry>{formatDate(new Date(time.fromTime))}</TableEntry>
-                <TableEntry>{formatDate(new Date(time.toTime))}</TableEntry>
+                <TableEntry style={{ textAlign: 'left' }}>
+                  {formatDate(new Date(time.fromTime))}
+                </TableEntry>
+                <TableEntry style={{ textAlign: 'left' }}>
+                  {formatDate(new Date(time.toTime))}
+                </TableEntry>
                 <TableEntry>{time.isNow ? '✅' : ''}</TableEntry>
                 <TableEntry>{time.isNext ? '✅' : ''}</TableEntry>
                 <TableEntry>
@@ -102,5 +106,5 @@ export const TimesTable: React.FC<TimesTableProps> = (props) => {
 };
 
 const formatDate = (date: Date) => {
-  return format(date, 'dd.MM.yyyy HH:mm');
+  return format(date, 'EEEE (dd.MM.) @ HH:mm');
 };
