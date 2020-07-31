@@ -61,13 +61,13 @@ export default async (
 
   const nowTimes = nowAndFutureTimes.filter((time) => {
     return (
-      isBefore(new Date(time.fromTime), now) &&
-      isAfter(new Date(time.toTime), now)
+      isBefore(addHours(new Date(time.fromTime), 2), now) &&
+      isAfter(addHours(new Date(time.toTime), 2), now)
     );
   });
 
   const nextTimes = nowAndFutureTimes
-    .filter((time) => isAfter(new Date(time.fromTime), now))
+    .filter((time) => isAfter(addHours(new Date(time.fromTime), 2), now))
     .sort(
       (timeA, timeB) =>
         new Date(timeA.fromTime).getTime() - new Date(timeB.fromTime).getTime(),
