@@ -6,7 +6,7 @@ import { TimesTable } from '../app/components/times-table';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 
 const Page = styled.div`
-  padding: 0 8px;
+  padding: 0 8px 32px 8px;
 `;
 
 const Title = styled.h1``;

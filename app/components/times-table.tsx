@@ -13,6 +13,10 @@ const Table = styled.table`
   border-collapse: collapse;
 `;
 
+const TableHeaderEntry = styled.th`
+  padding: 4px 8px;
+`;
+
 const TableEntry = styled.td`
   padding: 8px;
   text-align: center;
@@ -56,12 +60,12 @@ export const TimesTable: React.FC<TimesTableProps> = (props) => {
       <Table>
         <thead>
           <tr>
-            <th>Title</th>
-            <th>From</th>
-            <th>To</th>
-            <th>Now</th>
-            <th>Next</th>
-            <th>Actions</th>
+            <TableHeaderEntry>Title</TableHeaderEntry>
+            <TableHeaderEntry>From</TableHeaderEntry>
+            <TableHeaderEntry>To</TableHeaderEntry>
+            <TableHeaderEntry>Now</TableHeaderEntry>
+            <TableHeaderEntry>Next</TableHeaderEntry>
+            <TableHeaderEntry>Actions</TableHeaderEntry>
           </tr>
         </thead>
         <tbody>
