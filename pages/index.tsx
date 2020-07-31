@@ -53,10 +53,12 @@ export default function Home(
       <Page>
         <div>
           <Title>{props.message}</Title>
-          <p>
-            jetzt gerade am liebsten für{' '}
-            {props.times.now.map((time) => time.title).join(', ')}
-          </p>
+          {props.hasTime && (
+            <p>
+              jetzt gerade am liebsten für{' '}
+              {props.times.now.map((time) => time.title).join(', ')}
+            </p>
+          )}
         </div>
         <Footer>
           <UnstyledLink
@@ -75,14 +77,17 @@ export default function Home(
 export const getStaticProps: GetServerSideProps<{
   times: TimesResponse;
   message: string;
+  hasTime: boolean;
 }> = async () => {
   const times = await fetchTimes();
-  const message = times.now ? getRandom(YES) : getRandom(NOS);
+  const hasTime = Boolean(Array.isArray(times.now) && times.now.length > 0);
+  const message = hasTime ? getRandom(YES) : getRandom(NOS);
 
   return {
     props: {
       times,
       message,
+      hasTime,
     },
     revalidate: 1,
   };
