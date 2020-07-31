@@ -21,6 +21,7 @@ const Page = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  text-align: center;
   align-items: center;
 `;
 
@@ -51,7 +52,13 @@ export default function Home(
       </Head>
       <GlobalStyle />
       <Page>
-        <Title>{props.message}</Title>
+        <div>
+          <Title>{props.message}</Title>
+          <p>
+            jetzt gerade am liebsten für{' '}
+            {props.times.now.map((time) => time.title).join(', ')}
+          </p>
+        </div>
         <Footer>
           <UnstyledLink href="https://github.com/feedm3">
             Made with ❤️ from feedm3
@@ -64,6 +71,7 @@ export default function Home(
 
 export const getServerSideProps: GetServerSideProps<{
   times: TimesResponse;
+  message: string;
 }> = async () => {
   const times = await fetchTimes();
   const message = times.now ? getRandom(YES) : getRandom(NOS);
