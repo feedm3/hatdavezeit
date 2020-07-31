@@ -3,7 +3,7 @@ import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import { TimesResponse } from './api/times';
 import { fetchTimes } from '../app/api/times';
 import styled, { createGlobalStyle } from 'styled-components';
-import { format, isToday } from 'date-fns';
+import { addHours, format, isToday } from 'date-fns';
 
 const GlobalStyle = createGlobalStyle`
   html,
@@ -88,7 +88,9 @@ export const getStaticProps: GetServerSideProps<{
     : hasNextTime
     ? isToday(new Date(times.next.fromTime))
       ? `eventuell heute um ${format(
-          new Date(times.next.fromTime),
+          process.env.NODE_ENV === 'production'
+            ? addHours(new Date(times.next.fromTime), 2) // vercel server is not using german timezone
+            : new Date(times.next.fromTime),
           'HH:mm',
         )} Uhr`
       : 'heute nicht mehr'
