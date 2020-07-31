@@ -2,19 +2,62 @@ import Head from 'next/head';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import { TimesResponse } from './api/times';
 import { fetchTimes } from '../app/api/times';
+import styled, { createGlobalStyle } from 'styled-components';
+
+const GlobalStyle = createGlobalStyle`
+  html,
+      body,
+      body > div:first-child,
+      div#__next,
+      div#__next > div,
+      div#__next > div > div {
+        height: 100%;
+      }
+`;
+
+const Page = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const Title = styled.h1`
+  margin-top: 32px;
+`;
+
+const Footer = styled.footer`
+  font-size: 12px;
+  color: gray;
+  margin: 16px;
+  padding: 0;
+`;
+
+const UnstyledLink = styled.a`
+  text-decoration: none;
+  color: gray;
+`;
 
 export default function Home(
   props: InferGetServerSidePropsType<typeof getServerSideProps>,
 ) {
-  const message = props.times.now ? getRandom(YES) : getRandom(NOS);
-
   return (
     <>
       <Head>
         <title>Hat Dave Zeit?</title>
-        <meta name="description" content={message} />
+        <meta name="description" content={props.message} />
       </Head>
-      <h1 style={{ display: 'grid', placeItems: 'center' }}>{message}</h1>
+      <GlobalStyle />
+      <Page>
+        <Title>{props.message}</Title>
+        <Footer>
+          <UnstyledLink href="https://github.com/feedm3">
+            Made with ❤️ from feedm3
+          </UnstyledLink>
+        </Footer>
+      </Page>
     </>
   );
 }
@@ -23,10 +66,12 @@ export const getServerSideProps: GetServerSideProps<{
   times: TimesResponse;
 }> = async () => {
   const times = await fetchTimes();
+  const message = times.now ? getRandom(YES) : getRandom(NOS);
 
   return {
     props: {
       times,
+      message,
     },
   };
 };
