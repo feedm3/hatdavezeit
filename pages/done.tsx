@@ -1,73 +1,47 @@
-import Flatpickr from 'react-flatpickr';
-import { useEffect, useState } from 'react';
 import { TimesResponse } from './api/times';
+import styled from 'styled-components';
+import { TimeEntryForm } from '../app/components/time-entry-form';
+import { createTime, fetchTimes } from '../app/api/times';
+import { TimesTable } from '../app/components/times-table';
+import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 
-export default function Done() {
-  const [title, setTitle] = useState<string>('');
-  const [fromDate, setFromDate] = useState<Date>(new Date());
-  const [toDate, setToDate] = useState<Date>(new Date());
-  const [times, setTimes] = useState<TimesResponse>();
+const Page = styled.div`
+  padding: 0 8px;
+`;
 
-  useEffect(() => {
-    window
-      .fetch('/api/times')
-      .then((response) => {
-        return response.json();
-      })
-      .then((times) => {
-        setTimes(times);
-      });
-  });
+const Title = styled.h1``;
 
+const SubTitle = styled.h2`
+  margin-top: 48px;
+  margin-bottom: 16px;
+`;
+
+export default function Done(
+  props: InferGetServerSidePropsType<typeof getServerSideProps>,
+) {
   return (
-    <div>
-      <h1>done panel</h1>
-      <h2>Add new time:</h2>
-      <input placeholder={'Title'} />
-      <p>
-        From:{' '}
-        <Flatpickr
-          options={{
-            enableTime: true,
-            time_24hr: true,
-            minDate: 'today',
-            dateFormat: 'd.m.y H:i',
-          }}
-          value={fromDate}
-          onChange={(date) => {
-            setFromDate(date);
-          }}
-        />
-      </p>
-      <p>
-        To:{' '}
-        <Flatpickr
-          options={{
-            enableTime: true,
-            time_24hr: true,
-            minDate: 'today',
-            dateFormat: 'd.m.y H:i',
-          }}
-          value={toDate}
-          onChange={(date) => {
-            setToDate(date);
-          }}
-        />
-      </p>
-      <button>save</button>
-      <h2>Your times</h2>
-      {times?.all?.length > 0 ? (
-        times.all.map((time) => {
-          return (
-            <p key={time.id}>
-              <span>{time.title}</span>
-              <span>{time.fromTime}</span> - <span>{time.toTime}</span>
-            </p>
-          );
-        })
-      ) : (
-        <div>nein</div>
-      )}
-    </div>
+    <Page>
+      <Title>Done Panel 🍺</Title>
+      <SubTitle>Add new time:</SubTitle>
+      <TimeEntryForm
+        onSave={(time) => {
+          createTime(time).then(() => window.location.reload());
+        }}
+      />
+      <SubTitle>Your times:</SubTitle>
+      <TimesTable times={props.times} />
+    </Page>
   );
 }
+
+export const getServerSideProps: GetServerSideProps<{
+  times: TimesResponse;
+}> = async () => {
+  const times = await fetchTimes();
+
+  return {
+    props: {
+      times,
+    },
+  };
+};
