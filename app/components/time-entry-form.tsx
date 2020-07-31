@@ -38,7 +38,7 @@ export const TimeEntryForm: React.FC<TimeEntryFormProps> = (props) => {
             <td>Title:</td>
             <td>
               <input
-                placeholder={'Something like "CoD"'}
+                placeholder={"'CoD', 'Saufa 🍺', etc."}
                 value={title}
                 onChange={(e) => {
                   setTitle(e.target.value);

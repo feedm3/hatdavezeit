@@ -25,9 +25,9 @@ export default function Done(
       <Head>
         <meta key="robots" name="robots" content="noindex,follow" />
         <meta key="googlebot" name="googlebot" content="noindex,follow" />
-        <title>Hat Dave Zeit? Done Panel</title>
+        <title>Hat Dave Zeit? Done Panel 🤴</title>
       </Head>
-      <Title>Done Panel 🍺</Title>
+      <Title>Done Panel 🤴</Title>
       <SubTitle>Add new time:</SubTitle>
       <TimeEntryForm
         onSave={(time) => {
