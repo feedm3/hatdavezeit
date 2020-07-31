@@ -4,16 +4,22 @@ import { addHours, isAfter, isBefore } from 'date-fns';
 
 const prisma = new PrismaClient();
 
-interface TimeResponse {
+export interface TimesResponse {
+  all: times[];
   now: times[];
   next: times;
 }
 
 export default async (
   req: NextApiRequest,
-  res: NextApiResponse<TimeResponse>,
+  res: NextApiResponse<TimesResponse>,
 ) => {
-  // the new date will return the utc date, thats why we have to add 2 hourse
+  if (req.method === 'POST') {
+    res.statusCode = 200;
+    return;
+  }
+
+  // the new date will return the utc date, thats why we have to add 2 hours
   // to be in cte time
   const now = addHours(new Date(), 2);
   const nowIso = now.toISOString();
@@ -57,5 +63,6 @@ export default async (
   res.json({
     now: nowTimes,
     next: nextTime,
+    all: nowAndFutureTimes,
   });
 };
