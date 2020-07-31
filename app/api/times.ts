@@ -1,6 +1,9 @@
 import { Time, TimesResponse } from '../../pages/api/times';
 
-const PATH = 'http://localhost:3000/api/times/';
+const PATH =
+  process.env.NODE_ENV === 'production'
+    ? 'https://hatdavezeit.de/api/times'
+    : 'http://localhost:3000/api/times';
 
 export const fetchTimes = async (): Promise<TimesResponse> => {
   return fetch(PATH).then((response) => {
