@@ -93,7 +93,12 @@ export const getStaticProps: GetServerSideProps<{
             : new Date(times.next.fromTime),
           'HH:mm',
         )} Uhr`
-      : 'heute nicht mehr'
+      : `heute nicht mehr, vielleicht am ${format(
+          process.env.NODE_ENV === 'production'
+            ? addHours(new Date(times.next.fromTime), 2) // vercel server is not using german timezone
+            : new Date(times.next.fromTime),
+          'dd.MM.yyyy',
+        )} dann`
     : '';
 
   return {
