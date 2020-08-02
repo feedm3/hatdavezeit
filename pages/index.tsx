@@ -48,7 +48,7 @@ export default function Home(
     <>
       <Head>
         <title>Hat Dave Zeit?</title>
-        <meta name="description" content={props.title} />
+        <meta name="description" content={`${props.title} ${props.subTitle}`} />
       </Head>
       <GlobalStyle />
       <Page>
