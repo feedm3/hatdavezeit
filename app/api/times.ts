@@ -6,9 +6,18 @@ const PATH =
     : 'http://localhost:3000/api/times';
 
 export const fetchTimes = async (): Promise<TimesResponse> => {
-  return fetch(PATH).then((response) => {
-    return response.json();
-  });
+  return fetch(PATH)
+    .then((response) => {
+      return response.json();
+    })
+    .catch((e) => {
+      console.error('Could not fetch times:', e);
+      return {
+        all: [],
+        now: [],
+        next: null,
+      };
+    });
 };
 
 export interface CreateTimeItem {
