@@ -58,11 +58,11 @@ export default function Home(
         </div>
         <Footer>
           <UnstyledLink
-            href="https://github.com/feedm3"
+            href="https://dietenberger.me"
             target="_blank"
             rel="noopener"
           >
-            Made with ❤️ from feedm3
+            Made with ❤️ from Fabian Dietenberger
           </UnstyledLink>
         </Footer>
       </Page>
